@@ -31,7 +31,7 @@
 <script>
 	async function getAnswer() {
 		let answer;
-		const res = await fetch('http://localhost:8080/wordle-app/WordleServlet');
+		const res = await fetch('http://ec2-3-145-41-84.us-east-2.compute.amazonaws.com:8080/wordle-app/WordleServlet');
 		answer = await res.text();
 		return answer;
 	}
@@ -59,7 +59,7 @@
 		tries -= 1;
 		document.getElementById("triesRemaining").innerText = "Tries remaining: " + tries;
 		answer.then(ans => {
-			fetch('http://localhost:8080/wordle-app/ValidatorServlet?guess=' + document.getElementById("guess").value + '&answer=' + ans).then(res => res.text())
+			fetch('http://ec2-3-145-41-84.us-east-2.compute.amazonaws.com:8080/wordle-app/ValidatorServlet?guess=' + document.getElementById("guess").value + '&answer=' + ans).then(res => res.text())
 			.then(resp => {
 				document.getElementById("row" + (tries + 1)).innerHTML = resp;
 			}).catch(error => console.error(error));
@@ -129,7 +129,7 @@
 			</h1>
 			<p id="errors"></p>
 			Your guess: <input type="text" id="guess"> <br />
-			<input type="submit"/> <br/>
+			<input type="submit" value="Guess!"/> <br/>
 			<p id="triesRemaining">Tries remaining: 5</p>
 		</form>
 	</section>
