@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	header {
+		background-color:black;
+		color:white;
+		text-align:center;
+		padding:5px;
+	}		
+	nav {
+		line-height:30px;
+		background-color:#eeeeee;
+		height:300px;
+		width:100px;
+		float:left;
+		padding:5px;
+	}
+	section {
+		width:350px;
+		padding:10px;
+	}
+	footer{
+		background-color:black;
+		color:white;
+		clear:both;
+		text-align:center;
+		padding:5px;
+	}
+</style>
+<script>
+	async function getAnswer() {
+		let answer;
+		const res = await fetch('http://localhost:8080/wordle-app/WordleServlet');
+		answer = await res.text();
+		return answer;
+	}
+	var answer = getAnswer();
+	answer.then(value => {
+		console.log(value);
+	});
+	function initDisplay() {
+		document.getElementById("row1").style.display = "none";
+		document.getElementById("row2").style.display = "none";
+		document.getElementById("row3").style.display = "none";
+		document.getElementById("row4").style.display = "none";
+		document.getElementById("row5").style.display = "none";
+	}
+	var tries = 5;
+	function guess() {
+		tries -= 1;
+		document.getElementById("triesRemaining").innerText = "Tries remaining: " + tries;
+		document.getElementById("row" + (tries + 1)).style.display = "block";
+		console.log(tries);
+	}
+	
+</script>
+<meta charset="ISO-8859-1">
+<title>Wrodle</title>
+</head>
+<body onload="initDisplay();">
+	<header>
+		<h1>Welcome to Wrodle!</h1>
+	</header>
+	<section>
+		<div id="display">
+			<p id="row5" style="margin-bottom:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
+			<p id="row4" style="margin:0;padding-top:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
+			<p id="row3" style="margin:0;padding-top:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
+			<p id="row2" style="margin:0;padding-top:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
+			<p id="row1" style="margin:0;padding-top:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
+		</div>
+	</section>
+	<section>
+		<h1>
+			Make a guess...
+		</h1>
+		<form action="javascript:guess();">
+			Your guess: <input type="text" name="guess"> <br />
+			<input type="submit" value="Guess!"/> <br/>
+			<p id="triesRemaining"></p>
+		</form>
+	</section>
+</body>
+</html>
