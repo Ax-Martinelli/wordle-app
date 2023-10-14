@@ -47,39 +47,92 @@
 		document.getElementById("row5").style.display = "none";
 	}
 	var tries = 5;
+	var success = false;
 	function guess() {
+		if(tries == 0) return;
+		if(document.getElementById("guess").value.length != 5) {
+			document.getElementById("errors").innerText = "The guess should be five letters long.";
+			return;
+		} else {
+			document.getElementById("errors").innerText = "";
+		}
 		tries -= 1;
 		document.getElementById("triesRemaining").innerText = "Tries remaining: " + tries;
+		answer.then(ans => {
+			fetch('http://localhost:8080/wordle-app/ValidatorServlet?guess=' + document.getElementById("guess").value + '&answer=' + ans).then(res => res.text())
+			.then(resp => {
+				document.getElementById("row" + (tries + 1)).innerHTML = resp;
+			}).catch(error => console.error(error));
+		});
 		document.getElementById("row" + (tries + 1)).style.display = "block";
-		console.log(tries);
+		answer.then(ans => {
+			if(document.getElementById("guess").value === ans) {
+				document.getElementById("row" + (tries + 1)).innerHTML = '&#129001;&#129001;&#129001;&#129001;&#129001;';
+				document.getElementById("row" + (tries + 1)).style.display = "block";
+				doEnd(true);
+				return;
+			}
+		});
+		if(tries == 0) {
+			doEnd(false);
+			return; 
+		}
 	}
-	
+	function doEnd(win) {
+		if(win == true){
+			youWin();
+		} else {
+			answer.then(ans => {
+				if(document.getElementById("guess").value === ans) {
+					youWin();
+				} else {
+					youLose();
+				}
+			});
+
+		}
+		document.getElementById("inputForm").style.display = "none";
+		
+	}
+	function youWin() {
+		answer.then(ans => {
+			document.getElementById("results").innerText = "You won with " + (tries) + " tries remaining! The hidden word was: " + ans + ".";
+		});
+		
+	}
+	function youLose() {
+		answer.then(ans => {
+			document.getElementById("results").innerText = "You lost! The hidden word was: " + ans;
+		});
+	}
 </script>
 <meta charset="ISO-8859-1">
-<title>Wrodle</title>
+<title>Wordle Mockup</title>
 </head>
 <body onload="initDisplay();">
 	<header>
-		<h1>Welcome to Wrodle!</h1>
+		<h1>Welcome to the Wordle Mockup!</h1>
 	</header>
 	<section>
 		<div id="display">
-			<p id="row5" style="margin-bottom:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
-			<p id="row4" style="margin:0;padding-top:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
-			<p id="row3" style="margin:0;padding-top:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
-			<p id="row2" style="margin:0;padding-top:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
-			<p id="row1" style="margin:0;padding-top:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
+			<p id="row5" style="margin-bottom:0;"><br/>
+			<p id="row4" style="margin:0;padding-top:0;"><br />
+			<p id="row3" style="margin:0;padding-top:0;"><br />
+			<p id="row2" style="margin:0;padding-top:0;"><br />
+			<p id="row1" style="margin:0;padding-top:0;"><br />
 		</div>
 	</section>
 	<section>
-		<h1>
-			Make a guess...
-		</h1>
-		<form action="javascript:guess();">
-			Your guess: <input type="text" name="guess"> <br />
-			<input type="submit" value="Guess!"/> <br/>
-			<p id="triesRemaining"></p>
+		<form id="inputForm" action="javascript:guess();">
+			<h1>
+				Make a guess...
+			</h1>
+			<p id="errors"></p>
+			Your guess: <input type="text" id="guess"> <br />
+			<input type="submit"/> <br/>
+			<p id="triesRemaining">Tries remaining: 5</p>
 		</form>
 	</section>
+	<p id="results"></p>
 </body>
 </html>

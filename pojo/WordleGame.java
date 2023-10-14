@@ -25,7 +25,7 @@ public class WordleGame {
 		}
 		for(int i = 0; i < 5; i++) {
 			if(correct[i]) continue;
-			for(int j = i; j < 5; j++) {
+			for(int j = 0; j < 5; j++) {
 				contains[i] = (guess[i] == answer[j]);
 				if(contains[i]) {
 					answer[j] = '0';

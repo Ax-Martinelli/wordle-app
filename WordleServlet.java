@@ -33,7 +33,7 @@ public class WordleServlet extends HttpServlet {
 			connection = DBConnection.connection;
 
 			Random r = new Random();
-			int rid = r.nextInt(10);
+			int rid = r.nextInt(10) + 1;
 			String selectSQL = "SELECT * FROM WORDS WHERE id = ?";
 			preparedStatement = connection.prepareStatement(selectSQL);
 			preparedStatement.setInt(1, rid);
