@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	header {
+		background-color:black;
+		color:white;
+		text-align:center;
+		padding:5px;
+	}		
+	nav {
+		line-height:30px;
+		background-color:#eeeeee;
+		height:300px;
+		width:100px;
+		float:left;
+		padding:5px;
+	}
+	section {
+		width:350px;
+		padding:10px;
+	}
+	footer{
+		background-color:black;
+		color:white;
+		clear:both;
+		text-align:center;
+		padding:5px;
+	}
+</style>
+<meta charset="ISO-8859-1">
+<title>Wrodle</title>
+</head>
+<body>
+	<header>
+		<h1>Welcome to Wrodle!</h1>
+	</header>
+	<section>
+		<p style="margin-bottom:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
+		<p style="margin:0;padding-top:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
+		<p style="margin:0;padding-top:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
+		<p style="margin:0;padding-top:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
+		<p style="margin:0;padding-top:0;">&#11035;&#11035;&#11035;&#11035;&#11035;<br />
+	</section>
+	<section>
+		<h1>
+			Make a guess...
+		</h1>
+		<form action="WordleServlet" method="POST">
+			Your guess: <input type="text" name="guess"> <br />
+			<input type="submit" value="Guess!"/>
+		</form>
+	</section>
+</body>
+</html>
